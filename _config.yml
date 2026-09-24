@@ -42,10 +42,9 @@ kramdown:
     block:
       line_numbers: false
 
-# Plugins supported by GitHub Pages
+# This site owns feed.xml and sitemap.xml templates, so do not also enable
+# generators that write those same destination files.
 plugins:
-  - jekyll-feed
-  - jekyll-sitemap
   - jekyll-seo-tag
 
 # Exclude build files

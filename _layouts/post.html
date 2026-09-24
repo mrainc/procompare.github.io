@@ -15,7 +15,7 @@ layout: default
       <li><a href="{{ site.baseurl }}/#articles">Articles</a></li>
       {% if page.category %}
       <li><span class="sep">/</span></li>
-      <li><span class="current-cat">{{ page.category }}</span></li>
+      <li><span class="current-cat">{{ page.category | escape }}</span></li>
       {% endif %}
     </ol>
   </nav>
@@ -24,7 +24,7 @@ layout: default
   <header class="post-header">
     <div class="post-meta-top">
       {% if page.category %}
-      <span class="post-category-badge">{{ page.category }}</span>
+      <span class="post-category-badge">{{ page.category | escape }}</span>
       {% endif %}
       <span class="post-read-time">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -44,10 +44,10 @@ layout: default
       </span>
     </div>
 
-    <h1 class="post-title">{{ page.title }}</h1>
+    <h1 class="post-title">{{ page.title | escape }}</h1>
 
     {% if page.subtitle %}
-    <p class="post-subtitle">{{ page.subtitle }}</p>
+    <p class="post-subtitle">{{ page.subtitle | escape }}</p>
     {% endif %}
 
     <!-- Author Byline -->
@@ -86,9 +86,9 @@ layout: default
   <!-- Featured Image -->
   {% if page.image %}
   <div class="post-featured-image-wrap">
-    <img src="{{ site.baseurl }}{{ page.image }}" alt="{{ page.title }}" class="post-featured-image" loading="eager">
+    <img src="{{ site.baseurl }}{{ page.image }}" alt="{{ page.title | escape }}" class="post-featured-image" loading="eager">
     {% if page.image_caption %}
-    <figcaption class="image-caption">{{ page.image_caption }}</figcaption>
+    <figcaption class="image-caption">{{ page.image_caption | escape }}</figcaption>
     {% endif %}
   </div>
   {% endif %}
@@ -127,7 +127,7 @@ layout: default
     <div class="post-tags-list">
       <span class="tags-label">Tags:</span>
       {% for tag in page.tags %}
-      <span class="post-tag">#{{ tag }}</span>
+      <span class="post-tag">#{{ tag | escape }}</span>
       {% endfor %}
     </div>
     {% endif %}
@@ -142,7 +142,7 @@ layout: default
           </svg>
           Copy Link
         </button>
-        <a class="share-btn share-twitter-btn" id="share-twitter" target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}">
+        <a class="share-btn share-twitter-btn" id="share-twitter" target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&amp;url={{ site.url }}{{ page.url }}">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
           </svg>

@@ -1,5 +1,6 @@
 ---
 layout: post
+permalink: /posts/spec-driven-development-kiro-cursor-copilot-claude.html
 title: "Beyond Prompting: Is Spec-Driven Engineering the Real Successor to AI Autocomplete?"
 subtitle: "An architectural deep dive into AWS Kiro, Cursor, Claude Code, GitHub Copilot, and Codex—and why the specification is replacing the prompt as the unit of software engineering."
 date: 2026-09-24 10:00:00 +0530
@@ -126,7 +127,7 @@ To understand why this approach feels categorically different from standard IDE 
   </div>
   <div class="tech-card">
     <div class="tech-card-icon">⚡</div>
-    <h4>4. Powers & Skills</h4>
+    <h4>4. Powers &amp; Skills</h4>
     <p>Modular, reusable execution packages that equip agents with domain-specific mastery. Whether provisioning an AWS CDK stack, executing a database migration, or running static security scans, powers give the agent specialized toolchains.</p>
   </div>
   <div class="tech-card">
@@ -189,9 +190,9 @@ The following table evaluates each platform across key enterprise criteria based
       <tr>
         <td class="dim-name">Primary Interaction Unit</td>
         <td><span class="badge badge-purple">Living Specs</span></td>
-        <td><span class="badge badge-blue">Chat & Prompt</span></td>
+        <td><span class="badge badge-blue">Chat &amp; Prompt</span></td>
         <td><span class="badge badge-green">CLI Commands</span></td>
-        <td><span class="badge badge-gray">Inline & Chat</span></td>
+        <td><span class="badge badge-gray">Inline &amp; Chat</span></td>
         <td><span class="badge badge-orange">Goal / Task</span></td>
       </tr>
       <tr>
@@ -204,7 +205,7 @@ The following table evaluates each platform across key enterprise criteria based
       </tr>
       <tr>
         <td class="dim-name">Persistent Architectural Governance</td>
-        <td><strong>Steering & Hooks</strong></td>
+        <td><strong>Steering &amp; Hooks</strong></td>
         <td><code>.cursorrules</code></td>
         <td><code>CLAUDE.md</code></td>
         <td>Copilot Instructions</td>
@@ -235,7 +236,7 @@ The following table evaluates each platform across key enterprise criteria based
         <td>Cloud Background Sandboxes</td>
       </tr>
       <tr>
-        <td class="dim-name">Verification & Safety Guardrails</td>
+        <td class="dim-name">Verification &amp; Safety Guardrails</td>
         <td>Continuous Pre/Post Hooks</td>
         <td>Manual User Diff Review</td>
         <td>CLI Test Iteration</td>
@@ -246,7 +247,7 @@ The following table evaluates each platform across key enterprise criteria based
         <td class="dim-name">Ideal Enterprise Fit</td>
         <td>Mission-Critical Systems</td>
         <td>Fast-Paced Product Dev</td>
-        <td>Systems & CLI Devs</td>
+        <td>Systems &amp; CLI Devs</td>
         <td>Standard Corporate Teams</td>
         <td>Autonomous Batch Migrations</td>
       </tr>

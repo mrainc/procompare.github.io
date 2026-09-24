@@ -7,6 +7,8 @@ Emulates Jekyll compilation so the site can be previewed locally and verified.
 import os
 import re
 import shutil
+import html
+import json
 import yaml
 import markdown
 from datetime import datetime
@@ -20,7 +22,10 @@ def parse_front_matter(content):
         if len(parts) >= 3:
             try:
                 fm = yaml.safe_load(parts[1]) or {}
-                return fm, parts[2]
+                # The newline after the closing front-matter delimiter is not
+                # page content.  Keeping it puts a blank line before XML
+                # declarations, which makes feed.xml and sitemap.xml invalid.
+                return fm, parts[2].lstrip('\r\n')
             except Exception as e:
                 print(f"Error parsing front matter: {e}")
     return {}, content
@@ -52,53 +57,63 @@ def render_liquid_simple(text, context):
             posts = posts[:limit]
         for p in posts:
             p_ctx = {'site': site, 'page': page, 'post': p}
-            p_text = template
-            # replace {{ post.xyz }}
-            for k, v in p.items():
-                if isinstance(v, (str, int, float)):
-                    p_text = re.sub(r'{{\s*post\.' + k + r'(?:\s*\|[^}]*)?\s*}}', str(v), p_text)
-            # handle post.tags
-            p_text = re.sub(r'{%\s*for\s+tag\s+in\s+post\.tags\s*%}[\s\S]*?{%\s*endfor\s*%}', '', p_text)
-            out.append(p_text)
+            out.append(render_liquid_simple(template, p_ctx))
         return ''.join(out)
     text = for_post_pattern.sub(replace_posts_loop, text)
 
     # Replace simple variables {{ site.xyz }} and {{ page.xyz }}
     def var_repl(match):
         expr = match.group(1).strip()
-        parts = expr.split('|')
+        parts = [part.strip() for part in expr.split('|')]
         var_name = parts[0].strip()
-        default_val = ''
+        value = eval_var(var_name, context)
         for p in parts[1:]:
-            p = p.strip()
             if p.startswith('default:'):
-                default_val = p.split(':', 1)[1].strip().strip('"\'')
+                if value is None or value == '':
+                    fallback = p.split(':', 1)[1].strip()
+                    value = eval_var(fallback, context) if '.' in fallback else fallback.strip('"\'')
             elif p.startswith('date:'):
                 fmt = p.split(':', 1)[1].strip().strip('"\'')
-                # If date formatting
-                if var_name == 'site.time':
-                    return datetime.now().strftime('%Y')
-                elif var_name in ('page.date', 'post.date'):
-                    try:
-                        d = page.get('date') or datetime.now()
-                        if isinstance(d, str):
-                            d = datetime.fromisoformat(d.replace(' +0530', ''))
-                        return d.strftime('%B %d, %Y')
-                    except Exception:
-                        return "September 24, 2026"
+                try:
+                    if isinstance(value, str):
+                        value = datetime.fromisoformat(value.replace(' +0530', '+05:30'))
+                    value = value.strftime(fmt)
+                except (AttributeError, ValueError):
+                    value = ''
             elif p == 'date_to_xmlschema':
-                return datetime.now().isoformat()
+                try:
+                    if isinstance(value, str):
+                        value = datetime.fromisoformat(value.replace(' +0530', '+05:30'))
+                    value = value.isoformat()
+                except (AttributeError, ValueError):
+                    value = ''
             elif p == 'date_to_rfc822':
-                return datetime.now().strftime('%a, %d %b %Y %H:%M:%S +0000')
+                try:
+                    if isinstance(value, str):
+                        value = datetime.fromisoformat(value.replace(' +0530', '+05:30'))
+                    value = value.strftime('%a, %d %b %Y %H:%M:%S %z')
+                except (AttributeError, ValueError):
+                    value = ''
             elif p == 'jsonify':
-                import json
-                val = eval_var(var_name, context) or default_val
-                return json.dumps(val)
+                return json.dumps(value or '')
+            elif p in ('escape', 'xml_escape'):
+                value = html.escape(str(value or ''), quote=True)
+            elif p == 'downcase':
+                value = str(value or '').lower()
+            elif p.startswith('join:'):
+                value = p.split(':', 1)[1].strip().strip('"\'').join(value or [])
+            elif p == 'strip_html':
+                value = re.sub(r'<[^>]+>', '', str(value or ''))
+            elif p.startswith('truncate:'):
+                limit = int(p.split(':', 1)[1].strip())
+                value = str(value or '')[:limit]
+            elif p == 'url_encode':
+                from urllib.parse import quote
+                value = quote(str(value or ''), safe='')
 
-        val = eval_var(var_name, context)
-        if val is None or val == '':
-            return default_val
-        return str(val)
+        # Liquid does not escape output implicitly, but the preview builder
+        # does so that its generated documents remain safe to validate.
+        return html.escape(str(value or ''), quote=True)
 
     text = re.sub(r'{{\s*([^}]+)\s*}}', var_repl, text)
 
@@ -154,6 +169,8 @@ def build():
                 fm['raw_body'] = body
                 posts.append(fm)
 
+    # Match Jekyll's newest-first post ordering rather than filename order.
+    posts.sort(key=lambda post: post.get('date', datetime.min), reverse=True)
     config['posts'] = posts
     site_ctx = {'site': config}
 

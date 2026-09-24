@@ -9,7 +9,7 @@ description: "In-depth architectural comparisons, market research, and engineeri
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="container hero-content">
     <div class="hero-badge">
-      <span class="badge-dot"></span> Empirical Engineering & Systems Architecture
+      <span class="badge-dot"></span> Empirical Engineering &amp; Systems Architecture
     </div>
     <h1 class="hero-title">
       Comparative Benchmarks &amp; Systems Architecture for the AI Era
@@ -69,13 +69,13 @@ description: "In-depth architectural comparisons, market research, and engineeri
     <div class="featured-card-grid">
       <div class="featured-image-col">
         <a href="{{ site.baseurl }}{{ featured_post.url }}" class="featured-img-link" tabindex="-1">
-          <img src="{{ site.baseurl }}{{ featured_post.image | default: '/assets/images/spec-driven-engineering-banner.jpg' }}" alt="{{ featured_post.title }}" class="featured-card-img" loading="eager">
+          <img src="{{ site.baseurl }}{{ featured_post.image | default: '/assets/images/spec-driven-engineering-banner.jpg' }}" alt="{{ featured_post.title | escape }}" class="featured-card-img" loading="eager">
           <div class="img-overlay-badge">In-Depth Analysis</div>
         </a>
       </div>
       <div class="featured-content-col">
         <div class="card-meta">
-          <span class="category-pill">{{ featured_post.category | default: "AI Engineering" }}</span>
+          <span class="category-pill">{{ featured_post.category | default: "AI Engineering" | escape }}</span>
           <span class="read-time-pill">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"></circle>
@@ -87,11 +87,11 @@ description: "In-depth architectural comparisons, market research, and engineeri
         </div>
 
         <h3 class="featured-post-title">
-          <a href="{{ site.baseurl }}{{ featured_post.url }}">{{ featured_post.title }}</a>
+          <a href="{{ site.baseurl }}{{ featured_post.url }}">{{ featured_post.title | escape }}</a>
         </h3>
 
         <p class="featured-post-excerpt">
-          {{ featured_post.subtitle | default: featured_post.description }}
+          {{ featured_post.subtitle | default: featured_post.description | escape }}
         </p>
 
         <div class="featured-card-footer">
@@ -103,7 +103,7 @@ description: "In-depth architectural comparisons, market research, and engineeri
             </div>
           </div>
 
-          <a href="{{ site.baseurl }}{{ featured_post.url }}" class="read-more-btn" aria-label="Read full article: {{ featured_post.title }}">
+          <a href="{{ site.baseurl }}{{ featured_post.url }}" class="read-more-btn" aria-label="Read full article: {{ featured_post.title | escape }}">
             Read Deep Dive &rarr;
           </a>
         </div>
@@ -242,13 +242,13 @@ description: "In-depth architectural comparisons, market research, and engineeri
 
   <div class="articles-grid" id="articles-list">
     {% for post in site.posts %}
-    <article class="article-card" data-title="{{ post.title | downcase }}" data-category="{{ post.category | downcase }}" data-tags="{{ post.tags | join: ' ' | downcase }}">
+  <article class="article-card" data-title="{{ post.title | downcase | escape }}" data-category="{{ post.category | downcase | escape }}" data-tags="{{ post.tags | join: ' ' | downcase | escape }}">
       <div class="article-card-inner">
         <div class="article-img-wrap">
           <a href="{{ site.baseurl }}{{ post.url }}">
-            <img src="{{ site.baseurl }}{{ post.image | default: '/assets/images/spec-driven-engineering-banner.jpg' }}" alt="{{ post.title }}" class="article-card-img" loading="lazy">
+            <img src="{{ site.baseurl }}{{ post.image | default: '/assets/images/spec-driven-engineering-banner.jpg' }}" alt="{{ post.title | escape }}" class="article-card-img" loading="lazy">
           </a>
-          <span class="article-category-tag">{{ post.category | default: "Architecture" }}</span>
+          <span class="article-category-tag">{{ post.category | default: "Architecture" | escape }}</span>
         </div>
 
         <div class="article-content">
@@ -259,11 +259,11 @@ description: "In-depth architectural comparisons, market research, and engineeri
           </div>
 
           <h3 class="article-title">
-            <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+            <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title | escape }}</a>
           </h3>
 
           <p class="article-excerpt">
-            {{ post.description | default: post.excerpt | strip_html | truncate: 160 }}
+            {{ post.description | default: post.excerpt | strip_html | truncate: 160 | escape }}
           </p>
 
           <div class="article-card-footer">
@@ -271,7 +271,7 @@ description: "In-depth architectural comparisons, market research, and engineeri
               <span class="avatar-micro">RA</span>
               <span class="author-micro-name">{{ post.author | default: site.author.name }}</span>
             </div>
-            <a href="{{ site.baseurl }}{{ post.url }}" class="article-link-arrow" aria-label="Read {{ post.title }}">
+            <a href="{{ site.baseurl }}{{ post.url }}" class="article-link-arrow" aria-label="Read {{ post.title | escape }}">
               Read &rarr;
             </a>
           </div>

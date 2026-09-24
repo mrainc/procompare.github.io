@@ -1,5 +1,6 @@
 ---
 layout: post
+permalink: /posts/production-ai-agent-engineering-benchmark.html
 title: "The Production Agent Benchmark: We Challenged 5 AI Coding Agents With the Same Enterprise Microservice"
 subtitle: "Moving past toy apps and synthetic benchmarks. A repeatable empirical framework measuring AWS Kiro, Cursor, Claude Code, GitHub Copilot, and Codex across architecture compliance, tenant isolation, code churn, and long-term maintainability."
 date: 2026-09-24 14:00:00 +0530
@@ -20,7 +21,7 @@ tags:
 
 <div class="executive-summary-card">
   <div class="summary-badge">
-    <span class="pulse-dot"></span> Benchmark Protocol & Research Design
+    <span class="pulse-dot"></span> Benchmark Protocol &amp; Research Design
   </div>
   <p class="summary-lead">
     Most AI coding evaluations test whether a model can solve an isolated LeetCode puzzle, generate a greenfield Todo app, or pass pre-canned unit tests in a synthetic GitHub issue. <strong>None of these tell an engineering leader if an agent can safely build software in a production enterprise codebase.</strong>
@@ -172,7 +173,7 @@ Rather than reducing software quality to a superficial "pass/fail" percentage, o
     <tbody>
       <tr>
         <td class="dim-name">
-          <strong>1. Test Rigor & Coverage</strong>
+          <strong>1. Test Rigor &amp; Coverage</strong>
           <span class="dim-sub">Unit, integration, and security assertions</span>
         </td>
         <td>Total passing assertions across positive and negative paths.</td>
@@ -181,7 +182,7 @@ Rather than reducing software quality to a superficial "pass/fail" percentage, o
       </tr>
       <tr>
         <td class="dim-name">
-          <strong>2. Tenant Isolation & Security</strong>
+          <strong>2. Tenant Isolation &amp; Security</strong>
           <span class="dim-sub">RLS leakage, IDOR, auth vulnerabilities</span>
         </td>
         <td>Automated penetration tests attempting cross-tenant leakage.</td>
@@ -191,7 +192,7 @@ Rather than reducing software quality to a superficial "pass/fail" percentage, o
       <tr>
         <td class="dim-name">
           <strong>3. Architectural Compliance</strong>
-          <span class="dim-sub">Clean layering & domain boundaries</span>
+          <span class="dim-sub">Clean layering &amp; domain boundaries</span>
         </td>
         <td>Static analysis verifying dependency direction and isolation.</td>
         <td><strong>15%</strong></td>
@@ -208,7 +209,7 @@ Rather than reducing software quality to a superficial "pass/fail" percentage, o
       </tr>
       <tr>
         <td class="dim-name">
-          <strong>5. Code Churn & Blast Radius</strong>
+          <strong>5. Code Churn &amp; Blast Radius</strong>
           <span class="dim-sub">Unrelated modifications outside feature</span>
         </td>
         <td>Ratio of unrelated lines changed vs. necessary functional lines.</td>
@@ -236,7 +237,7 @@ Rather than reducing software quality to a superficial "pass/fail" percentage, o
       <tr>
         <td class="dim-name">
           <strong>8. Maintainability Index</strong>
-          <span class="dim-sub">Cyclomatic complexity & abstraction quality</span>
+          <span class="dim-sub">Cyclomatic complexity &amp; abstraction quality</span>
         </td>
         <td>Static cognitive complexity, duplicate code, and naming conventions.</td>
         <td><strong>5%</strong></td>
@@ -254,7 +255,7 @@ Rather than reducing software quality to a superficial "pass/fail" percentage, o
       <tr>
         <td class="dim-name">
           <strong>10. Verification Discipline</strong>
-          <span class="dim-sub">Autonomous test execution & self-healing</span>
+          <span class="dim-sub">Autonomous test execution &amp; self-healing</span>
         </td>
         <td>Did the agent run tests voluntarily before declaring completion?</td>
         <td><strong>5%</strong></td>
