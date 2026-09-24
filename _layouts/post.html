@@ -1,0 +1,187 @@
+---
+layout: default
+---
+<!-- Sticky Reading Progress Bar -->
+<div class="reading-progress-track" aria-hidden="true">
+  <div class="reading-progress-fill" id="reading-progress"></div>
+</div>
+
+<article class="post-layout container">
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="{{ site.baseurl }}/">Home</a></li>
+      <li><span class="sep">/</span></li>
+      <li><a href="{{ site.baseurl }}/#articles">Articles</a></li>
+      {% if page.category %}
+      <li><span class="sep">/</span></li>
+      <li><span class="current-cat">{{ page.category }}</span></li>
+      {% endif %}
+    </ol>
+  </nav>
+
+  <!-- Post Header -->
+  <header class="post-header">
+    <div class="post-meta-top">
+      {% if page.category %}
+      <span class="post-category-badge">{{ page.category }}</span>
+      {% endif %}
+      <span class="post-read-time">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        {{ page.read_time | default: "14 min read" }}
+      </span>
+      <span class="post-date">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        {{ page.date | date: "%B %d, %Y" }}
+      </span>
+    </div>
+
+    <h1 class="post-title">{{ page.title }}</h1>
+
+    {% if page.subtitle %}
+    <p class="post-subtitle">{{ page.subtitle }}</p>
+    {% endif %}
+
+    <!-- Author Byline -->
+    <div class="author-byline">
+      <div class="author-avatar-wrap">
+        <div class="author-avatar-placeholder">
+          <span>RA</span>
+        </div>
+      </div>
+      <div class="author-details">
+        <div class="author-name-row">
+          <span class="author-name">{{ page.author | default: site.author.name }}</span>
+          <span class="author-badge-verified" title="Verified Systems Architect">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
+            Lead Architect
+          </span>
+        </div>
+        <span class="author-role">{{ site.author.role }}</span>
+      </div>
+
+      <!-- Quick Share Tools -->
+      <div class="post-share-top">
+        <button class="share-btn share-copy-btn" id="share-copy-top" title="Copy Link" aria-label="Copy article link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+          <span class="share-label">Share</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Featured Image -->
+  {% if page.image %}
+  <div class="post-featured-image-wrap">
+    <img src="{{ site.baseurl }}{{ page.image }}" alt="{{ page.title }}" class="post-featured-image" loading="eager">
+    {% if page.image_caption %}
+    <figcaption class="image-caption">{{ page.image_caption }}</figcaption>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- Article Main Grid: TOC + Content -->
+  <div class="post-grid">
+    <!-- Sticky Desktop TOC -->
+    <aside class="post-toc-sidebar" aria-label="Table of contents">
+      <div class="toc-sticky-card">
+        <div class="toc-header">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+          <span>Contents</span>
+        </div>
+        <nav class="toc-nav" id="toc-nav">
+          <!-- Dynamically generated or populated -->
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Post Body Prose -->
+    <div class="post-body prose" id="post-body">
+      {{ content }}
+    </div>
+  </div>
+
+  <!-- Post Share & Tags Footer -->
+  <div class="post-footer-wrap">
+    {% if page.tags %}
+    <div class="post-tags-list">
+      <span class="tags-label">Tags:</span>
+      {% for tag in page.tags %}
+      <span class="post-tag">#{{ tag }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="post-share-bottom">
+      <span class="share-title">Share this deep dive:</span>
+      <div class="share-buttons-group">
+        <button class="share-btn share-copy-btn" id="share-copy-bottom" title="Copy Link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+          Copy Link
+        </button>
+        <a class="share-btn share-twitter-btn" id="share-twitter" target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          Post
+        </a>
+        <a class="share-btn share-linkedin-btn" id="share-linkedin" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url }}{{ page.url }}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+          </svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Author Bio Card -->
+  <div class="author-bio-card">
+    <div class="bio-avatar-wrap">
+      <div class="bio-avatar">
+        <span>RA</span>
+      </div>
+    </div>
+    <div class="bio-content">
+      <h3 class="bio-name">{{ page.author | default: site.author.name }}</h3>
+      <p class="bio-role">{{ site.author.role }} • {{ site.title }}</p>
+      <p class="bio-desc">{{ site.author.bio }}</p>
+      <div class="bio-socials">
+        <a href="https://github.com/{{ site.author.github }}" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span class="bio-sep">•</span>
+        <a href="https://twitter.com/{{ site.author.twitter }}" target="_blank" rel="noopener noreferrer">Twitter / X</a>
+        <span class="bio-sep">•</span>
+        <a href="mailto:{{ site.author.email }}">Direct Email</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Newsletter Subscription Callout -->
+  {% include newsletter.html %}
+</article>
+
+<!-- Toast Notification for Copy -->
+<div id="toast" class="toast-notification" aria-live="polite">Link copied to clipboard!</div>

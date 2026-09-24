@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include head.html %}
+  <body id="top" class="site-body">
+    {% include header.html %}
+
+    <main class="main-content" id="content">
+      {{ content }}
+    </main>
+
+    {% include footer.html %}
+
+    <!-- Core Scripts -->
+    <script src="{{ site.baseurl }}/assets/js/main.js"></script>
+  </body>
+</html>

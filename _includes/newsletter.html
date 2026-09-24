@@ -1,0 +1,23 @@
+<section class="newsletter-section">
+  <div class="newsletter-card">
+    <div class="newsletter-content">
+      <div class="newsletter-badge">
+        <span class="badge-icon">⚡</span> The Architecture Briefing
+      </div>
+      <h3 class="newsletter-title">Zero Hype. Pure Systems Engineering.</h3>
+      <p class="newsletter-desc">
+        Join over 12,000+ staff engineers, CTOs, and technical architects receiving our bi-weekly breakdown of real-world AI coding benchmarks, distributed systems, and agent orchestration.
+      </p>
+      <form class="newsletter-form" onsubmit="event.preventDefault(); document.getElementById('newsletter-success').style.display = 'block'; this.style.display = 'none';">
+        <div class="newsletter-input-group">
+          <input type="email" required placeholder="Enter your work email..." aria-label="Email address" class="newsletter-input">
+          <button type="submit" class="newsletter-submit-btn">Subscribe</button>
+        </div>
+        <p class="newsletter-privacy">No spam, ever. Unsubscribe with one click anytime.</p>
+      </form>
+      <div id="newsletter-success" class="newsletter-success-msg" style="display:none;">
+        <span class="success-icon">✓</span> Thank you! You're now subscribed to The Architecture Briefing.
+      </div>
+    </div>
+  </div>
+</section>

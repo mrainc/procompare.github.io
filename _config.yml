@@ -1,3 +1,59 @@
-theme: jekyll-theme-minimal
-title: Omnichannel Group blog
-description: This repo hosts comparision of various products and leading market research from various sources. all facts are reviewed and assured.
+title: "Omnichannel Group Blog"
+tagline: "ProCompare Tech & Engineering Architecture"
+description: "Architectural deep dives, rigorous comparative benchmarks, and engineering analysis of AI agents, developer tooling, and enterprise platforms."
+url: "https://blog.omnichannel-group.com"
+baseurl: ""
+
+# Author Information
+author:
+  name: "Ravindra Aditya"
+  role: "Systems Architect & Engineering Lead"
+  email: "aditya@omnichannel-group.com"
+  bio: "Systems architect and engineering lead specializing in agentic workflows, distributed platforms, and developer infrastructure."
+  twitter: "omnichannelgrp"
+  github: "procompare"
+
+# Social & Meta
+social:
+  name: "Omnichannel Group"
+  links:
+    - https://github.com/procompare
+
+# Defaults for SEO & Indexing
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Ravindra Aditya"
+      comments: false
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+# Markdown & Syntax Highlighting
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+
+# Plugins supported by GitHub Pages
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclude build files
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - build_preview.py
+  - vendor/
+  - .sass-cache/
+  - .jekyll-cache/

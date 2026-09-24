@@ -1,0 +1,293 @@
+---
+layout: default
+title: "Omnichannel Group — ProCompare Tech & Engineering Blog"
+description: "In-depth architectural comparisons, market research, and engineering analysis of developer tools, AI agents, cloud ecosystems, and enterprise platforms."
+---
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="container hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span> Empirical Engineering & Systems Architecture
+    </div>
+    <h1 class="hero-title">
+      Comparative Benchmarks &amp; Systems Architecture for the AI Era
+    </h1>
+    <p class="hero-lead">
+      Deep, unvarnished architectural post-mortems and rigorous benchmarks of developer platforms, autonomous coding agents, and distributed cloud systems. Fact-checked, empirical, and battle-tested.
+    </p>
+
+    <div class="hero-cta-group">
+      <a href="#featured" class="btn btn-primary">
+        Read Flagship Deep Dive
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+      <a href="#matrix" class="btn btn-secondary">
+        Interactive Comparison Matrix &darr;
+      </a>
+    </div>
+
+    <!-- Quick Stats Bar -->
+    <div class="hero-stats-bar">
+      <div class="stat-item">
+        <span class="stat-number">5+</span>
+        <span class="stat-label">Agent Platforms Benchmarked</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <span class="stat-number">100%</span>
+        <span class="stat-label">Independent &amp; Vendor Neutral</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <span class="stat-number">Production</span>
+        <span class="stat-label">Enterprise-Grade Architecture</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Post Showcase -->
+<section class="featured-section container" id="featured">
+  <div class="section-header">
+    <div class="section-title-wrap">
+      <span class="section-eyebrow">Featured Deep Dive</span>
+      <h2 class="section-title">Latest Architectural Analysis</h2>
+    </div>
+    <div class="section-badge-live">
+      <span class="live-dot"></span> September 2026 Edition
+    </div>
+  </div>
+
+  {% assign featured_post = site.posts.first %}
+  {% if featured_post %}
+  <article class="featured-card">
+    <div class="featured-card-grid">
+      <div class="featured-image-col">
+        <a href="{{ site.baseurl }}{{ featured_post.url }}" class="featured-img-link" tabindex="-1">
+          <img src="{{ site.baseurl }}{{ featured_post.image | default: '/assets/images/spec-driven-engineering-banner.jpg' }}" alt="{{ featured_post.title }}" class="featured-card-img" loading="eager">
+          <div class="img-overlay-badge">In-Depth Analysis</div>
+        </a>
+      </div>
+      <div class="featured-content-col">
+        <div class="card-meta">
+          <span class="category-pill">{{ featured_post.category | default: "AI Engineering" }}</span>
+          <span class="read-time-pill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            {{ featured_post.read_time | default: "15 min read" }}
+          </span>
+          <span class="date-pill">{{ featured_post.date | date: "%b %d, %Y" }}</span>
+        </div>
+
+        <h3 class="featured-post-title">
+          <a href="{{ site.baseurl }}{{ featured_post.url }}">{{ featured_post.title }}</a>
+        </h3>
+
+        <p class="featured-post-excerpt">
+          {{ featured_post.subtitle | default: featured_post.description }}
+        </p>
+
+        <div class="featured-card-footer">
+          <div class="author-mini">
+            <div class="author-mini-avatar">RA</div>
+            <div class="author-mini-info">
+              <span class="author-mini-name">{{ featured_post.author | default: site.author.name }}</span>
+              <span class="author-mini-role">{{ site.author.role }}</span>
+            </div>
+          </div>
+
+          <a href="{{ site.baseurl }}{{ featured_post.url }}" class="read-more-btn" aria-label="Read full article: {{ featured_post.title }}">
+            Read Deep Dive &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+  {% endif %}
+</section>
+
+<!-- Interactive Comparison Matrix Section -->
+<section class="matrix-section container" id="matrix">
+  <div class="section-header">
+    <div class="section-title-wrap">
+      <span class="section-eyebrow">Enterprise Benchmark</span>
+      <h2 class="section-title">Agentic Developer Environments Compared</h2>
+      <p class="section-subtitle">
+        How leading AI coding ecosystems balance developer flow, architectural constraints, lifecycle governance, and long-horizon autonomy.
+      </p>
+    </div>
+  </div>
+
+  <div class="matrix-filter-bar">
+    <span class="filter-label">Filter View:</span>
+    <button class="filter-btn active" data-filter="all">All Metrics</button>
+    <button class="filter-btn" data-filter="governance">Governance &amp; Specs</button>
+    <button class="filter-btn" data-filter="autonomy">Autonomy &amp; Agents</button>
+    <button class="filter-btn" data-filter="workflow">Workflow &amp; IDE</button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="comparison-matrix-table interactive-matrix">
+      <thead>
+        <tr>
+          <th>Capability / Architectural Tier</th>
+          <th>AWS Kiro</th>
+          <th>Cursor</th>
+          <th>Claude Code</th>
+          <th>GitHub Copilot</th>
+          <th>OpenAI Codex</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-cat="governance">
+          <td class="dim-name">
+            <strong>Core Philosophy</strong>
+            <span class="dim-sub">Primary paradigm for development</span>
+          </td>
+          <td><span class="badge badge-purple">Spec-Driven</span></td>
+          <td><span class="badge badge-blue">Prompt &amp; Flow</span></td>
+          <td><span class="badge badge-green">UNIX CLI Agent</span></td>
+          <td><span class="badge badge-gray">Ecosystem Copilot</span></td>
+          <td><span class="badge badge-orange">Autonomous Goal</span></td>
+        </tr>
+        <tr data-cat="governance">
+          <td class="dim-name">
+            <strong>Requirements &rarr; Design Pipeline</strong>
+            <span class="dim-sub">Native 3-tier contract generation</span>
+          </td>
+          <td><strong class="highlight-green">Native 3-Tier</strong><br><small>Reqs &rarr; Design &rarr; Tasks</small></td>
+          <td>Plan Mode<br><small>Optional manual step</small></td>
+          <td>Instructional<br><small>Prompt-managed</small></td>
+          <td>Workspace Mode<br><small>PR &amp; Issue driven</small></td>
+          <td>Task Decomposition<br><small>Autonomous DAG</small></td>
+        </tr>
+        <tr data-cat="governance">
+          <td class="dim-name">
+            <strong>Persistent Guardrails</strong>
+            <span class="dim-sub">Enforcing architectural policies</span>
+          </td>
+          <td><strong class="highlight-purple">Steering &amp; Hooks</strong><br><small>Deterministic lifecycle</small></td>
+          <td><code>.cursorrules</code><br><small>Prompt injection</small></td>
+          <td><code>CLAUDE.md</code><br><small>Markdown context</small></td>
+          <td>Copilot Instructions<br><small>Org-level settings</small></td>
+          <td>System Config<br><small>Sandbox constraints</small></td>
+        </tr>
+        <tr data-cat="autonomy">
+          <td class="dim-name">
+            <strong>Deterministic Lifecycle Hooks</strong>
+            <span class="dim-sub">Event triggers on agent actions</span>
+          </td>
+          <td><span class="badge badge-purple">Native Hook Engine</span></td>
+          <td>Subagent Triggers</td>
+          <td>Custom Shell / Git</td>
+          <td>GitHub Actions CI/CD</td>
+          <td>Container Sandboxes</td>
+        </tr>
+        <tr data-cat="workflow">
+          <td class="dim-name">
+            <strong>Model Context Protocol (MCP)</strong>
+            <span class="dim-sub">Live infrastructure &amp; tooling state</span>
+          </td>
+          <td>Full Native Support</td>
+          <td>Full Native Support</td>
+          <td>Full Native Support</td>
+          <td>Expanding Preview</td>
+          <td>Plugin Framework</td>
+        </tr>
+        <tr data-cat="autonomy">
+          <td class="dim-name">
+            <strong>Sub-Agent Orchestration</strong>
+            <span class="dim-sub">Task delegation across specialized roles</span>
+          </td>
+          <td>Task-bound Agents</td>
+          <td>Specialized Subagents</td>
+          <td>Tool-use Loops</td>
+          <td>Copilot Extensions</td>
+          <td>Multi-agent Swarms</td>
+        </tr>
+        <tr data-cat="workflow">
+          <td class="dim-name">
+            <strong>Ideal Engineering Scenario</strong>
+            <span class="dim-sub">Where this platform delivers highest ROI</span>
+          </td>
+          <td><strong>Mission-Critical Systems</strong><br><small>Enterprise &amp; Compliance</small></td>
+          <td><strong>Fast Product Delivery</strong><br><small>Startups &amp; Iteration</small></td>
+          <td><strong>Systems &amp; CLI Refactor</strong><br><small>Deep codebases &amp; ops</small></td>
+          <td><strong>Enterprise Standardization</strong><br><small>GitHub-centric orgs</small></td>
+          <td><strong>Asynchronous Batch Work</strong><br><small>Migrations &amp; long jobs</small></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- All Articles Grid Section -->
+<section class="articles-section container" id="articles">
+  <div class="section-header">
+    <div class="section-title-wrap">
+      <span class="section-eyebrow">Publication Archive</span>
+      <h2 class="section-title">All Research Articles</h2>
+    </div>
+    <div class="articles-search-summary" id="articles-count">
+      Showing all articles
+    </div>
+  </div>
+
+  <div class="articles-grid" id="articles-list">
+    {% for post in site.posts %}
+    <article class="article-card" data-title="{{ post.title | downcase }}" data-category="{{ post.category | downcase }}" data-tags="{{ post.tags | join: ' ' | downcase }}">
+      <div class="article-card-inner">
+        <div class="article-img-wrap">
+          <a href="{{ site.baseurl }}{{ post.url }}">
+            <img src="{{ site.baseurl }}{{ post.image | default: '/assets/images/spec-driven-engineering-banner.jpg' }}" alt="{{ post.title }}" class="article-card-img" loading="lazy">
+          </a>
+          <span class="article-category-tag">{{ post.category | default: "Architecture" }}</span>
+        </div>
+
+        <div class="article-content">
+          <div class="article-meta">
+            <span class="article-date">{{ post.date | date: "%B %d, %Y" }}</span>
+            <span class="meta-dot">•</span>
+            <span class="article-read-time">{{ post.read_time | default: "12 min read" }}</span>
+          </div>
+
+          <h3 class="article-title">
+            <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+          </h3>
+
+          <p class="article-excerpt">
+            {{ post.description | default: post.excerpt | strip_html | truncate: 160 }}
+          </p>
+
+          <div class="article-card-footer">
+            <div class="author-micro">
+              <span class="avatar-micro">RA</span>
+              <span class="author-micro-name">{{ post.author | default: site.author.name }}</span>
+            </div>
+            <a href="{{ site.baseurl }}{{ post.url }}" class="article-link-arrow" aria-label="Read {{ post.title }}">
+              Read &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+
+  <div id="no-articles-found" class="no-results-msg" style="display:none;">
+    <p>No articles match your search query. Try another term or clear the filter.</p>
+    <button class="btn btn-secondary btn-sm" onclick="document.getElementById('site-search-input').value=''; filterArticles('');">Reset Search</button>
+  </div>
+</section>
+
+<!-- Newsletter Callout -->
+<div class="container">
+  {% include newsletter.html %}
+</div>
