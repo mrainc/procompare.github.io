@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initReadingProgress();
   initTableOfContents();
+  initResponsiveTables();
   initCodeCopyButtons();
   initLiveSearch();
   initMatrixFilter();
@@ -104,7 +105,23 @@ function initTableOfContents() {
 }
 
 /* --------------------------------------------------------------------------
-   4. Code Block Copy Buttons
+   4. Responsive Article Tables
+   -------------------------------------------------------------------------- */
+function initResponsiveTables() {
+  document.querySelectorAll('.prose table').forEach((table) => {
+    if (table.parentElement?.classList.contains('table-responsive')) return;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'table-responsive';
+    wrapper.setAttribute('tabindex', '0');
+    wrapper.setAttribute('aria-label', 'Scrollable comparison table');
+    table.parentNode.insertBefore(wrapper, table);
+    wrapper.appendChild(table);
+  });
+}
+
+/* --------------------------------------------------------------------------
+   5. Code Block Copy Buttons
    -------------------------------------------------------------------------- */
 function initCodeCopyButtons() {
   const codeBlocks = document.querySelectorAll('.prose pre');
