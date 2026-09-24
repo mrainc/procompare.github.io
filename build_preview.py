@@ -31,37 +31,9 @@ def parse_front_matter(content):
     return {}, content
 
 def render_liquid_simple(text, context):
-    """Simple Liquid replacement for variables and includes"""
-    site = context.get('site', {})
-    page = context.get('page', {})
-    
-    # Handle includes: {% include filename.html %}
-    include_pattern = re.compile(r'{%\s*include\s+([\w\.\-]+)\s*%}')
-    def replace_include(match):
-        inc_name = match.group(1)
-        inc_path = os.path.join(ROOT_DIR, '_includes', inc_name)
-        if os.path.exists(inc_path):
-            with open(inc_path, 'r', encoding='utf-8') as f:
-                return render_liquid_simple(f.read(), context)
-        return ''
-    text = include_pattern.sub(replace_include, text)
+    """Render the Liquid subset used by this site for a faithful local preview."""
+    context = context.copy()
 
-    # Handle simple for loops for posts: {% for post in site.posts %} ... {% endfor %}
-    for_post_pattern = re.compile(r'{%\s*for\s+post\s+in\s+site\.posts(?:\s+limit:(\d+))?\s*%}(.*?){%\s*endfor\s*%}', re.DOTALL)
-    def replace_posts_loop(match):
-        limit = int(match.group(1)) if match.group(1) else None
-        template = match.group(2)
-        out = []
-        posts = site.get('posts', [])
-        if limit:
-            posts = posts[:limit]
-        for p in posts:
-            p_ctx = {'site': site, 'page': page, 'post': p}
-            out.append(render_liquid_simple(template, p_ctx))
-        return ''.join(out)
-    text = for_post_pattern.sub(replace_posts_loop, text)
-
-    # Replace simple variables {{ site.xyz }} and {{ page.xyz }}
     def var_repl(match):
         expr = match.group(1).strip()
         parts = [part.strip() for part in expr.split('|')]
@@ -111,16 +83,72 @@ def render_liquid_simple(text, context):
                 from urllib.parse import quote
                 value = quote(str(value or ''), safe='')
 
-        # Liquid does not escape output implicitly, but the preview builder
-        # does so that its generated documents remain safe to validate.
-        return html.escape(str(value or ''), quote=True)
+        return str(value or '')
 
-    text = re.sub(r'{{\s*([^}]+)\s*}}', var_repl, text)
+    def render_variables(value):
+        return re.sub(r'{{\s*([^}]+)\s*}}', var_repl, value)
 
-    # Clean up unhandled liquid tags gracefully
-    text = re.sub(r'{%[^{}%]*%}', '', text)
+    def condition_is_true(expression):
+        expression = expression.strip()
+        if '==' in expression:
+            left, right = (part.strip() for part in expression.split('==', 1))
+            return str(eval_var(left, context)) == right.strip('"\'')
+        return bool(eval_var(expression, context))
 
-    return text
+    tag_pattern = re.compile(r'{%\s*(.*?)\s*%}', re.DOTALL)
+
+    def render_section(start=0, stop_tags=()):
+        output, cursor = [], start
+        while True:
+            tag_match = tag_pattern.search(text, cursor)
+            if not tag_match:
+                output.append(render_variables(text[cursor:]))
+                return ''.join(output), len(text), None
+            output.append(render_variables(text[cursor:tag_match.start()]))
+            tag = tag_match.group(1).strip()
+            command = tag.split(None, 1)[0] if tag else ''
+            if command in stop_tags:
+                return ''.join(output), tag_match.end(), command
+            cursor = tag_match.end()
+
+            if command == 'include':
+                name = tag.split(None, 1)[1].strip()
+                path = os.path.join(ROOT_DIR, '_includes', name)
+                if os.path.exists(path):
+                    output.append(render_liquid_simple(open(path, encoding='utf-8').read(), context))
+            elif command == 'assign':
+                assignment = tag.split(None, 1)[1]
+                name, expression = (part.strip() for part in assignment.split('=', 1))
+                context[name] = eval_var(expression, context)
+            elif command == 'if':
+                show_true = condition_is_true(tag.split(None, 1)[1])
+                true_content, cursor, terminator = render_section(cursor, ('else', 'endif'))
+                false_content = ''
+                if terminator == 'else':
+                    false_content, cursor, _ = render_section(cursor, ('endif',))
+                output.append(true_content if show_true else false_content)
+            elif command == 'for':
+                match = re.match(r'for\s+(\w+)\s+in\s+([\w\.]+)(?:\s+limit:(\d+))?$', tag)
+                body_start = cursor
+                _, cursor, _ = render_section(cursor, ('endfor',))
+                body = text[body_start:tag_pattern.search(text, body_start).start()] if False else None
+                # Reconstruct the loop body from the original text.  Nested
+                # blocks are already handled by render_section in each pass.
+                end_tag_start = text.rfind('{%', body_start, cursor)
+                body = text[body_start:end_tag_start]
+                if match:
+                    variable, collection_name, limit = match.groups()
+                    values = eval_var(collection_name, context) or []
+                    if limit:
+                        values = values[:int(limit)]
+                    for item in values:
+                        child_context = context.copy()
+                        child_context[variable] = item
+                        output.append(render_liquid_simple(body, child_context))
+            # End tags are consumed by the enclosing render_section.
+
+    rendered, _, _ = render_section()
+    return rendered
 
 def eval_var(name, context):
     tokens = name.split('.')
@@ -128,6 +156,8 @@ def eval_var(name, context):
     for t in tokens:
         if isinstance(cur, dict) and t in cur:
             cur = cur[t]
+        elif t == 'first' and isinstance(cur, list):
+            cur = cur[0] if cur else ''
         else:
             return ''
     return cur
@@ -146,7 +176,7 @@ def build():
             config = yaml.safe_load(f) or {}
 
     # Set site.time
-    config['time'] = datetime.now()
+    config['time'] = datetime.now().astimezone()
 
     # 2. Collect posts
     posts_dir = os.path.join(ROOT_DIR, '_posts')
@@ -193,6 +223,12 @@ def build():
         
         # Convert markdown body to html
         html_body = md.reset().convert(post['raw_body'])
+        # Python-Markdown decodes entities in raw HTML blocks. Re-escape bare
+        # ampersands so the preview output remains valid HTML.
+        html_body = re.sub(
+            r'&(?!amp;|lt;|gt;|quot;|apos;|nbsp;|copy;|rarr;|larr;|darr;|le;|ge;|#(?:x[0-9A-Fa-f]+|[0-9]+);)',
+            '&amp;', html_body,
+        )
         
         # Render into post layout
         rendered_post = post_layout_body.replace('{{ content }}', html_body)
@@ -215,18 +251,6 @@ def build():
         idx_content = f.read()
     idx_fm, idx_body = parse_front_matter(idx_content)
     idx_ctx = {'site': config, 'page': idx_fm}
-
-    # First featured post helper in template
-    if posts:
-        feat = posts[0]
-        idx_body = idx_body.replace('{{ featured_post.url }}', feat['url'])
-        idx_body = idx_body.replace('{{ featured_post.title }}', feat.get('title', ''))
-        idx_body = idx_body.replace('{{ featured_post.subtitle | default: featured_post.description }}', feat.get('subtitle', ''))
-        idx_body = idx_body.replace('{{ featured_post.category | default: "AI Engineering" }}', feat.get('category', 'AI Engineering'))
-        idx_body = idx_body.replace('{{ featured_post.read_time | default: "15 min read" }}', feat.get('read_time', '15 min read'))
-        idx_body = idx_body.replace('{{ featured_post.image | default: \'/assets/images/spec-driven-engineering-banner.jpg\' }}', feat.get('image', '/assets/images/spec-driven-engineering-banner.jpg'))
-        idx_body = idx_body.replace('{{ featured_post.date | date: "%b %d, %Y" }}', 'Sep 24, 2026')
-        idx_body = idx_body.replace('{{ featured_post.author | default: site.author.name }}', feat.get('author', config.get('author', {}).get('name', '')))
 
     rendered_idx = render_liquid_simple(idx_body, idx_ctx)
     final_index = default_layout_body.replace('{{ content }}', rendered_idx)
