@@ -158,6 +158,13 @@ function initCodeCopyButtons() {
 function initLiveSearch() {
   const searchInput = document.getElementById('site-search-input');
   if (!searchInput) return;
+  const hasArticleCards = document.querySelectorAll('.article-card').length > 0;
+  const query = new URLSearchParams(window.location.search).get('q') || '';
+
+  if (query) {
+    searchInput.value = query;
+    if (hasArticleCards) filterArticles(query);
+  }
 
   // Keyboard shortcut '/'
   window.addEventListener('keydown', (e) => {
@@ -170,8 +177,7 @@ function initLiveSearch() {
   });
 
   searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase().trim();
-    filterArticles(query);
+    if (hasArticleCards) filterArticles(e.target.value);
   });
 }
 

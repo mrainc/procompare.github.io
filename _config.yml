@@ -8,16 +8,8 @@ baseurl: ""
 author:
   name: "Ravindra Aditya"
   role: "Systems Architect & Engineering Lead"
-  email: "aditya@omnichannel-group.com"
+  email: "subscribe@omnichannel-group.com"
   bio: "Systems architect and engineering lead specializing in agentic workflows, distributed platforms, and developer infrastructure."
-  twitter: "omnichannelgrp"
-  github: "procompare"
-
-# Social & Meta
-social:
-  name: "Omnichannel Group"
-  links:
-    - https://github.com/procompare
 
 # Defaults for SEO & Indexing
 defaults:

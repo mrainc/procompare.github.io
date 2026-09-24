@@ -8,16 +8,13 @@
       <p class="newsletter-desc">
         Join over 12,000+ staff engineers, CTOs, and technical architects receiving our bi-weekly breakdown of real-world AI coding benchmarks, distributed systems, and agent orchestration.
       </p>
-      <form class="newsletter-form" onsubmit="event.preventDefault(); document.getElementById('newsletter-success').style.display = 'block'; this.style.display = 'none';">
+      <form class="newsletter-form" action="mailto:subscribe@omnichannel-group.com?subject=Newsletter%20subscription" method="post" enctype="text/plain">
         <div class="newsletter-input-group">
-          <input type="email" required placeholder="Enter your work email..." aria-label="Email address" class="newsletter-input">
+          <input type="email" name="email" required placeholder="Enter your email..." aria-label="Email address" class="newsletter-input">
           <button type="submit" class="newsletter-submit-btn">Subscribe</button>
         </div>
-        <p class="newsletter-privacy">No spam, ever. Unsubscribe with one click anytime.</p>
+        <p class="newsletter-privacy">Your email application will open a subscription request addressed to subscribe@omnichannel-group.com.</p>
       </form>
-      <div id="newsletter-success" class="newsletter-success-msg" style="display:none;">
-        <span class="success-icon">✓</span> Thank you! You're now subscribed to The Architecture Briefing.
-      </div>
     </div>
   </div>
 </section>

@@ -27,14 +27,6 @@
   {% endfor %}
   {% endif %}
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="{{ site.url }}{{ page.url }}">
-  <meta name="twitter:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}">
-  <meta name="twitter:description" content="{% if page.description %}{{ page.description | escape }}{% else %}{{ site.description | escape }}{% endif %}">
-  <meta name="twitter:image" content="{% if page.image %}{{ site.url }}{{ page.image }}{% else %}{{ site.url }}/assets/images/spec-driven-engineering-banner.jpg{% endif %}">
-  <meta name="twitter:site" content="@{{ site.author.twitter }}">
-
   <!-- Schema.org JSON-LD Structured Data for Google Indexing -->
   <script type="application/ld+json">
   {% if page.layout == 'post' %}

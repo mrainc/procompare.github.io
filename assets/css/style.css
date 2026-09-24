@@ -769,27 +769,52 @@ img {
 
 .comparison-matrix-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   text-align: left;
   font-size: 0.92rem;
 }
 
-.comparison-matrix-table th {
+.comparison-matrix-table th,
+.prose table th {
   background: var(--bg-tertiary);
   color: var(--text-primary);
   font-weight: 700;
   padding: 16px 20px;
+  border-right: 1px solid var(--border-medium);
   border-bottom: 1px solid var(--border-medium);
   white-space: nowrap;
 }
 
-.comparison-matrix-table td {
+.comparison-matrix-table td,
+.prose table td {
   padding: 18px 20px;
+  border-right: 1px solid var(--border-subtle);
   border-bottom: 1px solid var(--border-subtle);
   vertical-align: middle;
 }
 
+.comparison-matrix-table th:last-child,
+.comparison-matrix-table td:last-child,
+.prose table th:last-child,
+.prose table td:last-child {
+  border-right: none;
+}
+
 .comparison-matrix-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.prose table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+  font-size: 0.92rem;
+}
+
+.prose table tbody tr:last-child td {
   border-bottom: none;
 }
 
